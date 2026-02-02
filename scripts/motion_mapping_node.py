@@ -34,6 +34,12 @@ def update(iface, rob):
 
 if __name__ == "__main__":
 
+    robot_log = {}
+    interface_log = {}
+
+    lst_robot_log = []
+    lst_interface_log = []
+
     if LOG:
         if not os.path.exists("log"):
             os.makedirs("log")
@@ -69,25 +75,47 @@ if __name__ == "__main__":
     # starting the ROS node
     rate = rospy.Rate(ros_node_rate)
 
-    while not rospy.is_shutdown():
+    try: 
+        while not rospy.is_shutdown():
 
-        for idx, interface_key in enumerate(interfaces):
+            for idx, interface_key in enumerate(interfaces):
 
-            robot = robots[interface_key]
-            interface = interfaces[interface_key]
+                robot = robots[interface_key]
+                interface = interfaces[interface_key]
 
-            if robot.is_valid() and interface.isvalid():
+                if robot.is_valid() and interface.isvalid():
 
-                # motion mapping 
-                T_desired = update(interface, robot)
+                    # motion mapping 
+                    T_desired = update(interface, robot)
 
-                # send command to robot
-                robot.publish(T_desired)
+                    # send command to robot
+                    robot.publish(T_desired)
 
-                # save the previous variables
-                interface.set_T_M_prev(interface.get_T_M())
-                robot.set_T_R_prev(robot.get_T_R())
-                robot.set_T_des_prev(T_desired)
+                    # save the previous variables
+                    interface.set_T_M_prev(interface.get_T_M())
+                    robot.set_T_R_prev(robot.get_T_R())
+                    robot.set_T_des_prev(T_desired)
 
+                    if (LOG):
+                        robot_log[interface_key] = T_desired
+                        interface_log[interface_key] = interface.get_T_M()
 
-        rate.sleep()
+            if (LOG):
+                lst_robot_log.append(robot_log)
+                lst_interface_log.append(interface_log)
+
+            rate.sleep()
+
+    except rospy.ROSInterruptException:
+        pass
+
+    finally:
+        if LOG:
+            with open("log/lst_robot_log.pkl", "wb") as f:
+                pickle.dump(lst_robot_log, f)
+            with open("log/lst_interface_log.pkl", "wb") as f:
+                pickle.dump(lst_interface_log, f)
+
+            print("Pickle logs saved in 'log/' folder.")        
+
+        
