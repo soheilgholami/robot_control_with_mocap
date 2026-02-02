@@ -1,0 +1,61 @@
+ros_node:
+  loop_rate: 120.0
+
+# defining up to 4 robots
+robots:
+
+  robot_1:
+    name: franka_1
+    frame_id:
+    topics:
+      ee_pose:
+      desired_motions:
+      motion_interface: /mocap_system/pose_arrays
+    T_RO:
+      rotation:
+        - [1, 0, 0]
+        - [0, 1, 0]
+        - [0, 0, 1]
+      translation: [0, 0, 0]
+
+  robot_2:
+    name: 
+    frame_id:
+    topics:
+      ee_pose:
+      desired_motions: 
+      motion_interface:
+    T_RO:
+      rotation:
+        - [1, 0, 0]
+        - [0, 1, 0]
+        - [0, 0, 1]
+      translation: [0, 0, 0]
+
+  robot_3:
+    name:
+    frame_id: 
+    topics:
+      ee_pose:
+      desired_motions:
+      motion_interface:
+    T_RO:
+      rotation:
+        - [1, 0, 0]
+        - [0, 1, 0]
+        - [0, 0, 1]
+      translation: [0, 0, 0]
+
+  robot_4:
+    name:
+    frame_id:
+    topics:
+      ee_pose:
+      desired_motions:
+      motion_interface:
+    T_RO:
+      rotation:
+        - [1, 0, 0]
+        - [0, 1, 0]
+        - [0, 0, 1]
+      translation: [0, 0, 0]

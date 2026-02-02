@@ -1,0 +1,15 @@
+<launch>
+
+  <node
+    pkg="robot_control_with_mocap"
+    type="motive_ros_interface_node.py"
+    name="motive_ros_interface_node"
+    output="screen" />
+
+  <node
+    pkg="robot_control_with_mocap"
+    type="motion_mapping_node.py"
+    name="motion_mapping_node"
+    output="screen" />
+
+</launch>
