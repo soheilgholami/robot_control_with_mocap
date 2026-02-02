@@ -55,7 +55,7 @@ if __name__ == "__main__":
             frame_id=value.get("frame_id", ""),
             topic_ee_pose=topics.get("ee_pose", ""),
             topic_desired_motions=topics.get("desired_motions", ""),
-            T_RO=generate_T_RO(value)
+            T_RM=generate_T_RO(value)
         )
 
         interfaces[key] = InterfaceState(

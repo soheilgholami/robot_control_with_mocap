@@ -30,7 +30,7 @@ def T_to_pose(T):
 
 def generate_T_RO(value: dict) -> np.ndarray:
     T_RO = np.eye(4) 
-    tmp = value.get("T_RO", {})
+    tmp = value.get("T_RM", {})
     rotation = tmp.get("rotation", np.eye(3))
     T_RO[0:3, 0:3] = np.array(rotation)
     translation = tmp.get("translation", [0, 0, 0])

@@ -12,7 +12,7 @@ robots:
       ee_pose:
       desired_motions:
       motion_interface: /mocap_system/pose_arrays
-    T_RO:
+    T_RM:
       rotation:
         - [1, 0, 0]
         - [0, 1, 0]
@@ -27,7 +27,7 @@ robots:
       ee_pose:
       desired_motions: 
       motion_interface:
-    T_RO:
+    T_RM:
       rotation:
         - [1, 0, 0]
         - [0, 1, 0]
@@ -42,7 +42,7 @@ robots:
       ee_pose:
       desired_motions:
       motion_interface:
-    T_RO:
+    T_RM:
       rotation:
         - [1, 0, 0]
         - [0, 1, 0]
@@ -57,7 +57,7 @@ robots:
       ee_pose:
       desired_motions:
       motion_interface:
-    T_RO:
+    T_RM:
       rotation:
         - [1, 0, 0]
         - [0, 1, 0]
