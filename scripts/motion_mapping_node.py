@@ -7,6 +7,9 @@ from InterfaceState import InterfaceState
 import rospy
 import yaml
 import pickle
+import os 
+
+LOG = False 
 
 
 def update(iface, rob):
@@ -30,6 +33,10 @@ def update(iface, rob):
 
 
 if __name__ == "__main__":
+
+    if LOG:
+        if not os.path.exists("log"):
+            os.makedirs("log")
 
     with open("config/robots.yaml", "r") as f:
         config = yaml.safe_load(f)
@@ -81,5 +88,6 @@ if __name__ == "__main__":
                 interface.set_T_M_prev(interface.get_T_M())
                 robot.set_T_R_prev(robot.get_T_R())
                 robot.set_T_des_prev(T_desired)
+
 
         rate.sleep()
