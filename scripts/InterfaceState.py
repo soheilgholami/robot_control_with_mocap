@@ -7,27 +7,32 @@ class InterfaceState:
     def __init__(self, name, topic, index):
 
         self.name = name
-        self.T_O_prev = None  # Motion interface pose (initial / previous)
-        self.T_O = None       # Motion interface pose (current)
+
+        self.T_M = None       # Motion interface pose (current)
+        self.T_M_prev = None  # Motion interface pose (initial / previous)
+        
+        self.index_interface = index - 1
+
+        # how many msgs to be discarded in the beginning ?
+        # counter_msg_ee_pose counts to 5    
         self.counter_msg_interface_pose = 0
         self.valid_interface_pose = False
-        self.index_interface = index - 1
 
         self.sb_interface_pose = rospy.Subscriber(
             topic, PoseArray, self.cbk_interface_pose, queue_size=1
         )
 
-    def set_T_O_prev(self, T):
-        self.T_O_prev = T
+    def set_T_M_prev(self, T):
+        self.T_M_prev = T
 
-    def get_T_O_prev(self):
-        return self.T_O_prev
+    def get_T_M_prev(self):
+        return self.T_M_prev
 
-    def set_T_O(self, T):
-        self.T_O = T
+    def set_T_M(self, T):
+        self.T_M = T
 
-    def get_T_O(self):
-        return self.T_O
+    def get_T_M(self):
+        return self.T_M
 
     def is_valid(self):
         return self.valid_interface_pose
@@ -40,9 +45,9 @@ class InterfaceState:
 
             self.counter_msg_interface_pose += 1
             if self.counter_msg_interface_pose >= 5:
-                self.T_O_prev = T_current
+                self.T_M_prev = T_current
                 self.valid_interface_pose = True
 
         else:
-            self.T_O = T_current
+            self.T_M = T_current
 

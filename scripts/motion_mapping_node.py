@@ -13,11 +13,10 @@ def update(iface, rob):
         T_RM = rob.get_T_RM()
         
         # get current pose of the motion interface (T matrix)
-        T_M = iface.get_T_O()
+        T_M = iface.get_T_M()
         
         # relative displacement compared to the past pose
         T_M_rel = np.linalg.inv(iface.get_T_M_prev()) @ T_M
-        
         # transform it
         T_R_rel = T_RM @ T_M_rel @ np.linalg.inv(T_RM)
         
@@ -26,12 +25,11 @@ def update(iface, rob):
         T_des = T_R_prev @ T_R_rel 
         
         # save the previous variables
-        iface.set_T_O_prev(T_M)
-
+        iface.set_T_M_prev(T_M)
         rob.set_T_R_prev(rob.get_T_R())
         rob.set_T_des_prev(T_des)
 
-        return T_now
+        return T_des
 
 
 if __name__ == "__main__":
