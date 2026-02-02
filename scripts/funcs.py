@@ -28,7 +28,7 @@ def T_to_pose(T):
     return pose
 
 
-def generate_T_RO(value: dict) -> np.ndarray:
+def generate_T_RM(value: dict) -> np.ndarray:
     T_RO = np.eye(4) 
     tmp = value.get("T_RM", {})
     rotation = tmp.get("rotation", np.eye(3))
