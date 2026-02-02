@@ -10,7 +10,7 @@ class RobotState:
         frame_id,
         topic_ee_pose,
         topic_desired_motions,
-        T_RO
+        T_RM
     ):
 
         self.name = name
@@ -27,18 +27,18 @@ class RobotState:
         self.counter_msg_ee_pose = 0
         self.valid_ee_pose = False
 
-        self.set_T_RO(T_RO)
+        self.set_T_RM(T_RM)
 
         self.sb_ee_pose = rospy.Subscriber(
             topic_ee_pose, PoseArray, self.cbk_ee_pose, queue_size=1
         )
-        
+
         self.pb_desired_motions = rospy.Publisher(
             topic_desired_motions, PoseStamped, queue_size=1
         )
 
-    def get_T_RO(self):
-        return self.T_RO
+    def get_T_RM(self):
+        return self.T_RM
 
     def set_T_R(self, T):
         self.T_R = T

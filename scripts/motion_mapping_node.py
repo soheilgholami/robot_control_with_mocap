@@ -10,7 +10,7 @@ import yaml
 
 def update(iface, rob):
         # transformation matrix : robot and motion interface base frames
-        T_RM = rob.get_T_RO()
+        T_RM = rob.get_T_RM()
         
         # get current pose of the motion interface (T matrix)
         T_M = iface.get_T_O()
