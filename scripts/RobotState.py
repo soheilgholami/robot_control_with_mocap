@@ -15,24 +15,36 @@ class RobotState:
 
         self.name = name
         self.frame_id = frame_id
-        self.sb_ee_pose = None
-        self.pb_desired_motions = None
 
+        self.T_R = None       # EE pose (current)
         self.T_R_prev = None  # EE pose (initial / previous)
-        self.T_cmd_prev = None
-        self.T_cmd = None
 
-        self.valid_ee_pose = False
+        self.T_des = None       # desired EE pose (current)
+        self.T_des_prev = None  # desired EE pose (current)
+
+        # how many msgs to be discarded in the beginning ?
+        # counter_msg_ee_pose counts to 5
         self.counter_msg_ee_pose = 0
+        self.valid_ee_pose = False
 
         self.set_T_RO(T_RO)
 
         self.sb_ee_pose = rospy.Subscriber(
             topic_ee_pose, PoseArray, self.cbk_ee_pose, queue_size=1
         )
+        
         self.pb_desired_motions = rospy.Publisher(
             topic_desired_motions, PoseStamped, queue_size=1
         )
+
+    def get_T_RO(self):
+        return self.T_RO
+
+    def set_T_R(self, T):
+        self.T_R = T
+
+    def get_T_R(self):
+        return self.T_R
 
     def set_T_R_prev(self, T):
         self.T_R_prev = T
@@ -40,23 +52,17 @@ class RobotState:
     def get_T_R_prev(self):
         return self.T_R_prev
 
-    def set_T_cmd(self, T):
-        self.T_cmd = T
+    def set_T_des(self, T):
+        self.T_des = T
 
-    def get_T_cmd(self):
-        return self.T_cmd
+    def get_T_des(self):
+        return self.T_des
 
-    def set_T_cmd_prev(self, T):
-        self.T_cmd_prev = T
+    def set_T_des_prev(self, T):
+        self.T_des_prev = T
 
-    def set_T_RO(self, T):
-        self.T_RO = T
-
-    def get_T_RO(self):
-        return self.T_RO
-
-    def get_T_cmd_prev(self):
-        return self.T_cmd_prev
+    def get_T_des_prev(self):
+        return self.T_des_prev
 
     def is_valid(self):
         return self.valid_ee_pose
