@@ -6,9 +6,11 @@ from InterfaceState import InterfaceState
 
 import rospy
 import yaml
+import pickle
 
 
 def update(iface, rob):
+        
         # transformation matrix : robot and motion interface base frames
         T_RM = rob.get_T_RM()
         
@@ -23,11 +25,6 @@ def update(iface, rob):
         # calculating the current robot pose
         T_R_prev = rob.get_T_R_prev()
         T_des = T_R_prev @ T_R_rel 
-        
-        # save the previous variables
-        iface.set_T_M_prev(T_M)
-        rob.set_T_R_prev(rob.get_T_R())
-        rob.set_T_des_prev(T_des)
 
         return T_des
 
@@ -75,11 +72,14 @@ if __name__ == "__main__":
             if robot.is_valid() and interface.isvalid():
 
                 # motion mapping 
-                T = update(interface, robot)
-
-                # TODO update the interface and robot values 
+                T_desired = update(interface, robot)
 
                 # send command to robot
-                robot.publish(T)
+                robot.publish(T_desired)
+
+                # save the previous variables
+                interface.set_T_M_prev(interface.get_T_M())
+                robot.set_T_R_prev(robot.get_T_R())
+                robot.set_T_des_prev(T_desired)
 
         rate.sleep()
