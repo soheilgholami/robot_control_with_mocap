@@ -57,7 +57,8 @@ if __name__ == "__main__":
 
         interfaces[key] = InterfaceState(
             name=value["name"],
-            topic=topics.get("motion_interface", "")
+            topic=topics.get("motion_interface", ""), 
+            index=value.get("motion_interface_idndex", -1)
         )  
 
     rate = rospy.Rate(FREQ_LOOP)
