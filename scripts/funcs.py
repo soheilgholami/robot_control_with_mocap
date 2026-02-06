@@ -16,6 +16,13 @@ def pose_to_T(pose):
     return T
 
 
+def T_to_numpy_pose(T):
+    pose = np.zeros((7,))
+    pose[0:3] = translation_from_matrix(T)
+    pose[3:7] = quaternion_from_matrix(T)  # qx, qy, qz, qw
+    return pose
+
+
 def T_to_pose(T):
     pose = PoseStamped()
     pose.pose.position.x = translation_from_matrix(T)[0]
@@ -28,9 +35,9 @@ def T_to_pose(T):
     return pose
 
 
-def generate_T_RM(value: dict) -> np.ndarray:
+def generate_ref_T_B(value: dict) -> np.ndarray:
     T_RO = np.eye(4) 
-    tmp = value.get("T_RM", {})
+    tmp = value.get("ref_T_B", {})
     rotation = tmp.get("rotation", np.eye(3))
     T_RO[0:3, 0:3] = np.array(rotation)
     translation = tmp.get("translation", [0, 0, 0])
